@@ -1,4 +1,5 @@
 package recipesearch;
+ 
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -6,13 +7,17 @@ package recipesearch;
  * and open the template in the editor.
  */
 
+import java.util.List;
+import se.chalmers.ait.dat215.lab2.Recipe;
+import se.chalmers.ait.dat215.lab2.RecipeDatabase;
+import se.chalmers.ait.dat215.lab2.SearchFilter;
 public class RecipeSearchView extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form ExampleApplicationView
      */
     public RecipeSearchView() {
-        initComponents();
+        initComponents();        
     }
 
     /**
@@ -26,18 +31,34 @@ public class RecipeSearchView extends javax.swing.JFrame {
 
         tabbedPane = new javax.swing.JTabbedPane();
         searchPanel = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox();
+        cuisineCombo = new javax.swing.JComboBox();
         cuisineLabel = new javax.swing.JLabel();
         ingredientsLabel = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
+        ingredientCombo = new javax.swing.JComboBox();
         difficultyLabel = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox();
-        jSlider1 = new javax.swing.JSlider();
+        difficultyCombo = new javax.swing.JComboBox();
+        timeSlider = new javax.swing.JSlider();
         timeLabel = new javax.swing.JLabel();
         priceLabel = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        priceTextField = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        resultPreview1 = new recipesearch.resultPreview();
+        resultPreview4 = new recipesearch.resultPreview();
+        resultPreview5 = new recipesearch.resultPreview();
+        jPanel5 = new javax.swing.JPanel();
+        resultPreview7 = new recipesearch.resultPreview();
+        resultPreview8 = new recipesearch.resultPreview();
+        resultPreview9 = new recipesearch.resultPreview();
+        jPanel6 = new javax.swing.JPanel();
+        resultPreview10 = new recipesearch.resultPreview();
+        resultPreview11 = new recipesearch.resultPreview();
+        resultPreview12 = new recipesearch.resultPreview();
         jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         exitMenuItem = new javax.swing.JMenuItem();
@@ -49,36 +70,38 @@ public class RecipeSearchView extends javax.swing.JFrame {
         setTitle(bundle.getString("Application.title")); // NOI18N
         setName("applicationFrame"); // NOI18N
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Doesn't matter", "Sweden", "Greece", "India", "Asia", "Africa", "France" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
+        cuisineCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Doesn't matter", "Sweden", "Greece", "India", "Asia", "Africa", "France" }));
 
         java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("recipesearch/resources/RecipeSearchView"); // NOI18N
         cuisineLabel.setText(bundle1.getString("cuisineLabel.text")); // NOI18N
 
         ingredientsLabel.setText(bundle1.getString("ingredientsLabel.text")); // NOI18N
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Doesn't matter", "Meat", "Fish", "Chicken", "Vegetarian" }));
+        ingredientCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Doesn't matter", "Meat", "Fish", "Chicken", "Vegetarian" }));
 
         difficultyLabel.setText(bundle1.getString("difficultyLabel.text")); // NOI18N
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Doesn't matter", "Easy", "Medium", "Hard" }));
+        difficultyCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Doesn't matter", "Easy", "Medium", "Hard" }));
 
-        jSlider1.setMajorTickSpacing(20);
-        jSlider1.setMaximum(150);
-        jSlider1.setMinimum(10);
-        jSlider1.setMinorTickSpacing(10);
-        jSlider1.setPaintLabels(true);
-        jSlider1.setPaintTicks(true);
-        jSlider1.setSnapToTicks(true);
-        jSlider1.setValue(20);
+        timeSlider.setMajorTickSpacing(20);
+        timeSlider.setMaximum(150);
+        timeSlider.setMinimum(10);
+        timeSlider.setMinorTickSpacing(10);
+        timeSlider.setPaintLabels(true);
+        timeSlider.setPaintTicks(true);
+        timeSlider.setSnapToTicks(true);
+        timeSlider.setValue(20);
 
         timeLabel.setText(bundle1.getString("timeLabel.text")); // NOI18N
 
         priceLabel.setText(bundle1.getString("priceLabel.text")); // NOI18N
+
+        jButton1.setText("Search");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout searchPanelLayout = new javax.swing.GroupLayout(searchPanel);
         searchPanel.setLayout(searchPanelLayout);
@@ -94,12 +117,13 @@ public class RecipeSearchView extends javax.swing.JFrame {
                     .addComponent(timeLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(170, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cuisineCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ingredientCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(difficultyCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(timeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(priceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(182, Short.MAX_VALUE))
         );
         searchPanelLayout.setVerticalGroup(
             searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,50 +131,109 @@ public class RecipeSearchView extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cuisineLabel)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cuisineCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ingredientsLabel)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ingredientCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(difficultyLabel)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(difficultyCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(timeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(timeLabel))
                 .addGap(7, 7, 7)
                 .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(priceLabel)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(171, Short.MAX_VALUE))
+                    .addComponent(priceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(68, 68, 68)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(176, Short.MAX_VALUE))
         );
 
         tabbedPane.addTab(bundle1.getString("searchPane.text"), searchPanel); // NOI18N
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(600, 120));
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel1.add(resultPreview1);
+        jPanel1.add(resultPreview4);
+        jPanel1.add(resultPreview5);
+
+        jPanel5.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel5.add(resultPreview7);
+        jPanel5.add(resultPreview8);
+        jPanel5.add(resultPreview9);
+
+        jPanel6.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel6.add(resultPreview10);
+        jPanel6.add(resultPreview11);
+        jPanel6.add(resultPreview12);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 652, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 701, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addContainerGap(24, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 638, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(63, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 402, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(37, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(356, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(168, 168, 168)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(225, Short.MAX_VALUE)))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(293, 293, 293)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(120, Short.MAX_VALUE)))
         );
 
         tabbedPane.addTab(bundle1.getString("resultPane.text"), jPanel2); // NOI18N
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recipesearch/resources/chicken-tikka-masala.jpg"))); // NOI18N
+
+        jTextPane1.setText("sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample sample ");
+        jScrollPane1.setViewportView(jTextPane1);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 652, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 402, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabbedPane.addTab(bundle1.getString("detailedViewPane.text"), jPanel3); // NOI18N
@@ -185,7 +268,9 @@ public class RecipeSearchView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,30 +290,52 @@ public class RecipeSearchView extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+        SearchFilter filter = new SearchFilter(difficultyCombo.getActionCommand(),
+                timeSlider.getValue(),
+                cuisineCombo.getActionCommand(),
+                Integer.parseInt(priceTextField.getText()),
+                ingredientCombo.getActionCommand());
+                
+        List<Recipe> result = RecipeDatabase.getSharedInstance().search(filter);
+    }//GEN-LAST:event_searchActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
+    private javax.swing.JComboBox cuisineCombo;
     private javax.swing.JLabel cuisineLabel;
+    private javax.swing.JComboBox difficultyCombo;
     private javax.swing.JLabel difficultyLabel;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JComboBox ingredientCombo;
     private javax.swing.JLabel ingredientsLabel;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
-    private javax.swing.JComboBox jComboBox3;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JSlider jSlider1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextPane jTextPane1;
     private javax.swing.JLabel priceLabel;
+    private javax.swing.JTextField priceTextField;
+    private recipesearch.resultPreview resultPreview1;
+    private recipesearch.resultPreview resultPreview10;
+    private recipesearch.resultPreview resultPreview11;
+    private recipesearch.resultPreview resultPreview12;
+    private recipesearch.resultPreview resultPreview4;
+    private recipesearch.resultPreview resultPreview5;
+    private recipesearch.resultPreview resultPreview7;
+    private recipesearch.resultPreview resultPreview8;
+    private recipesearch.resultPreview resultPreview9;
     private javax.swing.JPanel searchPanel;
     private javax.swing.JTabbedPane tabbedPane;
     private javax.swing.JLabel timeLabel;
+    private javax.swing.JSlider timeSlider;
     // End of variables declaration//GEN-END:variables
 }
